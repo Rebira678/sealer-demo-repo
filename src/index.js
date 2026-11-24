@@ -4,13 +4,10 @@
 const express = require('express');
 const _ = require('lodash');
 const axios = require('axios');
-const jwt = require('jsonwebtoken');
-// NOTE: minimist, qs, tar, semver, node-fetch, yaml are installed but NOT imported here
+// NOTE: minimist, qs, semver, yaml are installed but NOT imported here
 
 const app = express();
 app.use(express.json());
-
-const JWT_SECRET = process.env.JWT_SECRET || 'demo-secret';
 
 // --- REACHABLE: lodash _.template command injection via options.variable (CVE-2021-23337 / GHSA-35jh-r3h4-6jhm) ---
 app.post('/api/render', (req, res) => {
@@ -33,35 +30,19 @@ app.get('/api/fetch', async (req, res) => {
   }
 });
 
-// --- REACHABLE: jsonwebtoken (various CVEs in 8.x) ---
-app.post('/api/login', (req, res) => {
-  const { username } = req.body;
-  if (!username) return res.status(400).json({ error: 'username required' });
-  const token = jwt.sign({ sub: username, role: 'user' }, JWT_SECRET, { expiresIn: '1h' });
-  res.json({ token });
-});
-
-app.get('/api/profile', (req, res) => {
-  const auth = req.headers.authorization;
-  if (!auth) return res.status(401).json({ error: 'no token' });
-  try {
-    const decoded = jwt.verify(auth.replace('Bearer ', ''), JWT_SECRET);
-    res.json({ user: decoded });
-  } catch (err) {
-    res.status(401).json({ error: 'invalid token' });
-  }
-});
-
-// --- REACHABLE: express itself (older 4.17.1 has CVEs) ---
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', uptime: process.uptime() });
 });
 
-// --- NOT REACHABLE: minimist, qs, tar, semver, node-fetch, yaml ---
+// --- NOT REACHABLE: minimist, qs, semver, yaml ---
 // These are in package.json but never imported or used in the codebase.
-// Sealer should detect them as vulnerabilities but mark them as NOT reachable.
+// Sealer marks them unreachable deterministically via the pre-check.
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Demo app running on port ${PORT}`);
-});
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Demo app running on port ${PORT}`);
+  });
+}
+
+module.exports = app;

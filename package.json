@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
-    "test": "node -e 'console.log(\"Tests pass\")' && exit 0"
+    "test": "node -e 'console.error(\"Deliberate test failure for CI demonstration\"); process.exit(1)'"
   },
   "dependencies": {
     "express": "4.21.2",

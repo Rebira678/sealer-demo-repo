@@ -1,22 +1,22 @@
 {
-  "name": "sealer-demo-app",
-  "version": "1.0.0",
-  "description": "A demo Express app with known vulnerable dependencies for Sealer testing",
-  "main": "src/index.js",
-  "scripts": {
-    "start": "node src/index.js",
-    "test": "node -e 'console.log(\"Tests pass\")' && exit 0"
-  },
   "dependencies": {
+    "axios": "0.21.2",
     "express": "4.21.2",
     "lodash": "4.17.19",
-    "axios": "0.21.1",
     "minimist": "1.2.5",
     "qs": "6.5.2",
     "semver": "7.3.4",
     "yaml": "1.10.0"
   },
+  "description": "A demo Express app with known vulnerable dependencies for Sealer testing",
   "engines": {
-    "node": ">=14"
-  }
+    "node": "\u003e=14"
+  },
+  "main": "src/index.js",
+  "name": "sealer-demo-app",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "node -e 'console.log(\"Tests pass\")' \u0026\u0026 exit 0"
+  },
+  "version": "1.0.0"
 }

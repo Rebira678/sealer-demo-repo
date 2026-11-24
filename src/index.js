@@ -12,10 +12,10 @@ app.use(express.json());
 
 const JWT_SECRET = process.env.JWT_SECRET || 'demo-secret';
 
-// --- REACHABLE: lodash _.template (CVE-2021-23337 — template injection) ---
+// --- REACHABLE: lodash _.template command injection via options.variable (CVE-2021-23337 / GHSA-35jh-r3h4-6jhm) ---
 app.post('/api/render', (req, res) => {
   try {
-    const template = _.template(req.body.template);
+    const template = _.template(req.body.template, { variable: req.query.v });
     const result = template(req.body.data || {});
     res.json({ rendered: result });
   } catch (err) {

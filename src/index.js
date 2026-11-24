@@ -23,7 +23,7 @@ app.post('/api/render', (req, res) => {
   }
 });
 
-// --- REACHABLE: axios SSRF via URL (CVE-2021-3749) ---
+// --- REACHABLE: axios ReDoS via URL trim (CVE-2021-3749 / GHSA-cph5-m8f7-6c5x) ---
 app.get('/api/fetch', async (req, res) => {
   try {
     const response = await axios.get(req.query.url);

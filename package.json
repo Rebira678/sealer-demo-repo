@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
-    "test": "node -e 'console.log(\"Tests pass\")' && exit 0"
+    "test": "node -e \"console.error('Deliberate broken test for CI check'); process.exit(1)\""
   },
   "dependencies": {
     "axios": "0.21.2",

@@ -8,9 +8,10 @@
     "test": "node -e 'console.log(\"Tests pass\")' && exit 0"
   },
   "dependencies": {
-    "express": "4.21.2",
-    "lodash": "4.17.19",
     "axios": "0.21.2",
+    "express": "4.21.2",
+    "json5": "1.0.1",
+    "lodash": "4.17.19",
     "minimist": "1.2.5",
     "qs": "6.5.2",
     "semver": "7.3.4",

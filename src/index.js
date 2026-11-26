@@ -4,6 +4,7 @@
 const express = require('express');
 const _ = require('lodash');
 const axios = require('axios');
+const JSON5 = require('json5');
 // NOTE: minimist, qs, semver, yaml are installed but NOT imported here
 
 const app = express();
@@ -27,6 +28,16 @@ app.get('/api/fetch', async (req, res) => {
     res.json({ data: response.data });
   } catch (err) {
     res.status(500).json({ error: err.message });
+  }
+});
+
+// --- REACHABLE: json5 Prototype Pollution via parse() (CVE-2022-46175 / GHSA-9c47-m6qq-7p4h) ---
+app.post('/api/config', (req, res) => {
+  try {
+    const parsed = JSON5.parse(req.body.config);
+    res.json({ parsed });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
   }
 });
 

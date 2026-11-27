@@ -21,7 +21,7 @@ app.post('/api/render', (req, res) => {
   }
 });
 
-// --- REACHABLE: axios ReDoS via URL trim (CVE-2021-3749 / GHSA-cph5-m8f7-6c5x) ---
+// Normal user-URL fetch (axios 0.21.2 is patched against earlier advisories)
 app.get('/api/fetch', async (req, res) => {
   try {
     const response = await axios.get(req.query.url);
